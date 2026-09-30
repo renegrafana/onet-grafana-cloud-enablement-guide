@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --bg: #f8f9fb;
+    --card-bg: #ffffff;
+    --border: #e2e5ea;
+    --accent: #f46800;
+    --accent2: #3871dc;
+    --green: #1a7f37;
+    --red: #cf222e;
+    --yellow: #9a6700;
+    --text: #1f2328;
+    --text-muted: #57606a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+  }
+  .hero {
+    background: linear-gradient(135deg, #fff4eb 0%, #f8f9fb 50%, #eef3fc 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(244,104,0,0.1);
+    color: var(--accent);
+    font-size: 12px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 6px 16px; border-radius: 20px;
+    border: 1px solid rgba(244,104,0,0.25);
+    margin-bottom: 20px;
+  }
+  .hero h1 { font-size: 34px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--text-muted); font-size: 16px; max-width: 750px; margin: 0 auto; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  .toc {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .toc h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin-bottom: 6px; font-size: 14px; color: var(--accent2); }
+  .toc li a { color: var(--accent2); text-decoration: none; }
+  .toc li a:hover { text-decoration: underline; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px; margin-top: 52px;
+    padding-top: 20px; border-top: 1px solid var(--border);
+  }
+  .section-header:first-of-type { border-top: none; margin-top: 0; }
+  .section-header .icon {
+    width: 40px; height: 40px;
+    background: rgba(244,104,0,0.08);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .section-header h2 { font-size: 22px; font-weight: 700; color: var(--text); }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .card h4 { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 8px; margin-top: 16px; }
+  .card p, .card li { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+  .card ul, .card ol { padding-left: 20px; margin-top: 8px; }
+  .card li { margin-bottom: 6px; }
+  .highlight-card {
+    background: linear-gradient(135deg, #fff4eb 0%, #fff 100%);
+    border: 1px solid #fde0c5;
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .highlight-card h3 { color: var(--accent); font-size: 16px; margin-bottom: 8px; }
+  .highlight-card p { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .stat {
+    background: #f4f5f7;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat .number { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .stat .label { font-size: 12px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .product-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .product-card h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .product-card .tag {
+    display: inline-block;
+    background: rgba(244,104,0,0.08);
+    color: var(--accent);
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 10px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .product-card p { color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+  .data-table {
+    width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 16px;
+  }
+  .data-table th {
+    text-align: left; padding: 12px 16px; font-weight: 600; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.8px;
+    border-bottom: 2px solid var(--border); background: #f9fafb; color: var(--text-muted);
+  }
+  .data-table td {
+    padding: 12px 16px; border-bottom: 1px solid #f0f1f3;
+    color: var(--text-muted); vertical-align: top;
+  }
+  .data-table tr:hover td { background: #f9fafb; }
+  .data-table .bold { font-weight: 600; color: var(--text); }
+
+  .hill-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .hill-card .hill-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+  }
+  .hill-card .num {
+    display: inline-flex; width: 32px; height: 32px;
+    background: var(--accent); color: #fff; border-radius: 50%;
+    align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; flex-shrink: 0;
+  }
+  .hill-card .hill-header h4 { font-size: 17px; font-weight: 700; color: var(--text); margin: 0; }
+  .hill-card p { color: var(--text-muted); font-size: 14px; line-height: 1.8; }
+  .hill-card .what-it-means {
+    background: #f4f5f7; border-radius: 8px; padding: 16px; margin-top: 14px;
+  }
+  .hill-card .what-it-means strong { color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .hill-card .what-it-means p { margin-top: 6px; }
+  .hill-card .customer-quote {
+    background: #eef3fc; border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 14px;
+  }
+  .hill-card .customer-quote p { font-style: italic; color: var(--text); font-size: 13px; }
+  .hill-card .customer-quote .source { font-style: normal; color: var(--text-muted); font-size: 12px; margin-top: 4px; }
+  .hill-card ul { padding-left: 20px; margin-top: 10px; }
+  .hill-card li { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 6px; }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .pain-card {
+    background: #fff7f0;
+    border: 1px solid #fde0c5;
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .pain-card h4 { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .pain-card p { color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+  .pain-card .solution {
+    background: #f0faf2; border: 1px solid #c6e9cc;
+    border-radius: 8px; padding: 12px; margin-top: 10px;
+  }
+  .pain-card .solution strong { color: #1a7f37; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pain-card .solution p { color: var(--text-muted); font-size: 12px; margin-top: 4px; }
+  .icp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .icp-card {
+    background: #eef3fc;
+    border: 1px solid #c5d5f0;
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .icp-card h4 { font-size: 15px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .icp-card p, .icp-card li { color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+  .icp-card ul { padding-left: 18px; margin-top: 6px; }
+  .gartner-badge {
+    background: linear-gradient(135deg, #eef3fc, #f8f9fb);
+    border: 2px solid #c5d5f0;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  .gartner-badge h3 { font-size: 20px; font-weight: 700; color: var(--accent2); margin-bottom: 8px; }
+  .gartner-badge p { color: var(--text-muted); font-size: 14px; max-width: 700px; margin: 0 auto; line-height: 1.7; }
+  .aws-badge {
+    background: linear-gradient(135deg, #fff4eb, #f8f9fb);
+    border: 2px solid #fde0c5;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin: 20px 0;
+  }
+  .aws-badge h3 { font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .aws-badge p { color: var(--text-muted); font-size: 14px; max-width: 700px; margin: 0 auto; line-height: 1.7; }
+  .footer {
+    text-align: center; padding: 40px 24px;
+    border-top: 1px solid var(--border); color: var(--text-muted);
+    font-size: 12px; margin-top: 60px;
+  }
+  .green-text { color: var(--green); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Partner Enablement — Confidential</div>
+  <h1>Grafana Cloud — <span>Sales Enablement Guide</span></h1>
+  <p>Everything OneT sales reps need to understand, position, and sell Grafana Cloud to customers in Indonesia and across Southeast Asia</p>
+  <p style="margin-top:12px; font-size:13px;">Prepared September 2026 by Grafana Labs Channel Sales</p>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <h3>📋 What's in this Guide</h3>
+    <ol>
+      <li><a href="#company">About Grafana Labs</a></li>
+      <li><a href="#gartner">Gartner Recognition</a></li>
+      <li><a href="#aws">AWS Partnership & Jakarta Data Residency</a></li>
+      <li><a href="#product">What is Grafana Cloud?</a></li>
+      <li><a href="#differentiators">Key Differentiators — The 5 Hills</a></li>
+      <li><a href="#painpoints">Challenges & Pain Points We Solve</a></li>
+      <li><a href="#icp">Ideal Customer Profile & Best-Fit Use Cases</a></li>
+      <li><a href="#pricing">Pricing Overview</a></li>
+      <li><a href="#objections">Common Objections & How to Handle Them</a></li>
+      <li><a href="#resources">Resources & Links</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. ABOUT GRAFANA LABS -->
+  <div class="section-header" id="company">
+    <div class="icon">🏛️</div>
+    <h2>1. About Grafana Labs</h2>
+  </div>
+
+  <div class="card">
+    <p>Grafana Labs is the company behind the world's most widely used open-source observability stack. We build software that helps engineering teams monitor, visualize, and understand their systems — from infrastructure to applications to business data.</p>
+    <p style="margin-top:12px;">Our platform is used everywhere from NASA to power grids to global banks, with over <strong>10,000 paying customers</strong> and one of the fastest-growing observability platforms in the market.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="number">10,000+</div>
+      <div class="label">Paying Customers</div>
+    </div>
+    <div class="stat">
+      <div class="number">~1,000</div>
+      <div class="label">Engineers Building the Platform</div>
+    </div>
+    <div class="stat">
+      <div class="number">27</div>
+      <div class="label">Cloud Regions Worldwide</div>
+    </div>
+    <div class="stat">
+      <div class="number">180+</div>
+      <div class="label">Data Source Integrations</div>
+    </div>
+    <div class="stat">
+      <div class="number">80%</div>
+      <div class="label">Engineering in Open Source</div>
+    </div>
+  </div>
+
+  <!-- 2. GARTNER -->
+  <div class="section-header" id="gartner">
+    <div class="icon">🏆</div>
+    <h2>2. Gartner Recognition</h2>
+  </div>
+
+  <div class="gartner-badge">
+    <h3>🏅 Gartner Magic Quadrant Leader — 3 Years Running</h3>
+    <p>Grafana Labs has been named a <strong>Leader in the Gartner® Magic Quadrant™ for Observability Platforms</strong> for three consecutive years (2024, 2025, 2026). In 2025 and 2026, Grafana was positioned <strong>furthest in Completeness of Vision</strong> — reflecting our leadership in innovation, open standards, and AI-driven observability.</p>
+  </div>
+
+  <div class="card">
+    <h3>What This Means for Your Customers</h3>
+    <ul>
+      <li><strong>Third-party validation:</strong> Gartner is the gold standard for enterprise technology evaluation. Being a Leader means Grafana meets the highest standards for both execution and vision.</li>
+      <li><strong>Procurement confidence:</strong> For regulated industries, government entities, and enterprises with vendor evaluation processes, Gartner recognition de-risks the purchasing decision.</li>
+      <li><strong>Completeness of Vision:</strong> Positioned furthest on this axis means Grafana is leading the market direction — AI, open standards, cost control, and composability.</li>
+      <li><strong>How to use it:</strong> Lead with Gartner in executive conversations. It opens doors. For procurement teams, share the <a href="https://grafana.com/analyst-reports/gartner-magic-quadrant-observability-platforms/" style="color:var(--accent2);">ungated Gartner MQ report on grafana.com</a>.</li>
+    </ul>
+    <p style="margin-top:12px; font-size:12px; color:var(--text-muted);"><em>Gartner does not endorse any vendor, product, or service depicted in its publications. The Magic Quadrant reflects Gartner's opinion.</em></p>
+  </div>
+
+  <!-- 3. AWS PARTNERSHIP -->
+  <div class="section-header" id="aws">
+    <div class="icon">☁️</div>
+    <h2>3. AWS Partnership & Jakarta Data Residency</h2>
+  </div>
+
+  <div class="aws-badge">
+    <h3>🇮🇩 Grafana Cloud is Available in Jakarta</h3>
+    <p>Grafana Cloud launched in the <strong>AWS Asia Pacific (Jakarta) region (ap-southeast-3)</strong> in November 2024 — making it the <strong>first observability platform hosted specifically in that AWS region</strong>. Indonesian customers can store and process their data locally.</p>
+  </div>
+
+  <div class="card">
+    <h3>The AWS Partnership</h3>
+    <ul>
+      <li><strong>Strategic relationship:</strong> Grafana Labs has a deep, long-term partnership with AWS. All new Grafana Cloud stacks are deployed on AWS infrastructure by default.</li>
+      <li><strong>AWS Marketplace:</strong> Customers can purchase Grafana Cloud directly through the <strong>AWS Marketplace</strong>, drawing from existing AWS Enterprise Discount Programs (EDP) or committed spend — making procurement frictionless.</li>
+      <li><strong>Amazon Managed Grafana:</strong> AWS also offers Amazon Managed Grafana (AMG) — a managed service for visualization built on Grafana Enterprise. This validates AWS's trust in Grafana as core observability infrastructure.</li>
+      <li><strong>Co-selling:</strong> Grafana Labs and AWS co-sell in the field. AWS sales teams actively recommend Grafana Cloud as the observability solution for their customers.</li>
+    </ul>
+    <h4>Why Jakarta Matters</h4>
+    <ul>
+      <li><strong>Data sovereignty:</strong> Indonesian regulations increasingly require local data processing and storage. The Jakarta region satisfies these requirements natively.</li>
+      <li><strong>Low latency:</strong> In-country hosting means faster dashboard loads, quicker alert evaluations, and lower network overhead for Indonesian users.</li>
+      <li><strong>Compliance:</strong> For government-linked enterprises and regulated industries, in-country data residency is often a hard requirement. Grafana Cloud meets this out of the box.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>APAC Regional Coverage</h3>
+    <table class="data-table">
+      <thead>
+        <tr><th>Location</th><th>Cloud Provider</th><th>Region Code</th><th>Availability</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bold">🇮🇩 Indonesia</td><td class="bold">AWS</td><td class="bold">ap-southeast-3</td><td class="bold">Self-Serve & AWS Marketplace</td>
+        </tr>
+        <tr><td>🇸🇬 Singapore</td><td>AWS / GCP</td><td>ap-southeast-1</td><td>Self-Serve, AWS & GCP Marketplace</td></tr>
+        <tr><td>🇦🇺 Australia</td><td>AWS / GCP</td><td>ap-southeast-2</td><td>Self-Serve, AWS & GCP Marketplace</td></tr>
+        <tr><td>🇮🇳 India</td><td>AWS / GCP</td><td>ap-south-1</td><td>Self-Serve, AWS & GCP Marketplace</td></tr>
+        <tr><td>🇯🇵 Japan</td><td>AWS</td><td>ap-northeast-1</td><td>Self-Serve & AWS Marketplace</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4. WHAT IS GRAFANA CLOUD -->
+  <div class="section-header" id="product">
+    <div class="icon">🔮</div>
+    <h2>4. What is Grafana Cloud?</h2>
+  </div>
+
+  <div class="card">
+    <p>Grafana Cloud is a <strong>fully managed (SaaS), open, and composable</strong> observability platform. It enables teams to collect, correlate, and act on all their operational data — metrics, logs, traces, profiles, and more — from a single platform.</p>
+    <p style="margin-top:12px;">Powered by Grafana Labs' open-source projects — <strong>Grafana</strong> (visualization), <strong>Loki</strong> (logs), <strong>Mimir</strong> (metrics), and <strong>Tempo</strong> (traces) — it supports <strong>180+ data sources</strong> and <strong>100+ pre-built solutions</strong>. Customers don't have to rip and replace — Grafana connects to what they already have.</p>
+  </div>
+
+  <div class="highlight-card">
+    <h3>The LGTM+ Stack — Know This Acronym</h3>
+    <p><strong>L</strong>oki (Logs) · <strong>G</strong>rafana (Visualization) · <strong>T</strong>empo (Traces) · <strong>M</strong>imir (Metrics) — plus k6 (load testing), Alloy (agent), Pyroscope (profiling), Faro (frontend), OnCall + IRM (incident response). All open-source foundations, managed as a unified cloud service.</p>
+  </div>
+
+  <h3 style="margin-top:24px; margin-bottom:16px; font-size:18px; color:var(--text);">Product Portfolio</h3>
+
+  <div class="product-grid">
+    <div class="product-card"><div class="tag">Core</div><h4>Grafana (Visualization & Alerting)</h4><p>The world's most popular open-source dashboard platform. 180+ data source plugins. Unified alerting across all data. AI Assistant for natural-language querying and dashboard creation.</p></div>
+    <div class="product-card"><div class="tag">Core</div><h4>Cloud Metrics (Mimir)</h4><p>Scalable Prometheus-compatible metrics backend. 13-month retention included on Pro tier. Adaptive Metrics automatically trims unused series to reduce cost.</p></div>
+    <div class="product-card"><div class="tag">Core</div><h4>Cloud Logs (Loki)</h4><p>Label-indexed log aggregation — cheaper than full-text indexing at scale. LogQL query language. Adaptive Logs for automatic cost optimization.</p></div>
+    <div class="product-card"><div class="tag">Core</div><h4>Cloud Traces (Tempo)</h4><p>Distributed tracing backend. OTel-native. TraceQL for advanced querying. Adaptive Traces for intelligent tail-sampling. No proprietary SDK required.</p></div>
+    <div class="product-card"><div class="tag">Solution</div><h4>Application Observability</h4><p>Full APM for distributed systems. Automatic entity discovery, 100+ contextual dashboards, AI-guided root cause analysis. Built on OpenTelemetry.</p></div>
+    <div class="product-card"><div class="tag">Solution</div><h4>Kubernetes Monitoring</h4><p>Single Helm chart deployment. Pre-built dashboards for clusters, nodes, pods, and workloads. Consumption-priced — scaling pods down scales the bill down.</p></div>
+    <div class="product-card"><div class="tag">Solution</div><h4>Grafana IRM (Incident Response)</h4><p>Includes Grafana OnCall and Grafana Incident. Unified alerting → routing → on-call → incident management. $20/active user (vs. $30/seat for Datadog).</p></div>
+    <div class="product-card"><div class="tag">Solution</div><h4>Performance Testing (k6)</h4><p>Open-source load testing tool, now fully integrated into Grafana Cloud. Script once, use for load testing in CI/CD and synthetic monitoring in production.</p></div>
+    <div class="product-card"><div class="tag">Solution</div><h4>Frontend Observability (Faro)</h4><p>Real User Monitoring (RUM) built on the open-source Faro SDK. Web Vitals, error tracking, session-to-trace correlation. OTel-native, no proprietary agent.</p></div>
+    <div class="product-card"><div class="tag">Solution</div><h4>Continuous Profiling (Pyroscope)</h4><p>Always-on profiling for Go, Python, Java, Rust, and more. eBPF auto-instrumentation via Alloy — zero code changes. Flame graph AI for automatic interpretation.</p></div>
+    <div class="product-card"><div class="tag">Capability</div><h4>Grafana Assistant (AI)</h4><p>AI that builds dashboards from screenshots, queries data in natural language, powers automated incident investigations, and interprets flame graphs. Works across ALL connected data sources.</p></div>
+    <div class="product-card"><div class="tag">Capability</div><h4>Adaptive Telemetry</h4><p>Automatically optimizes telemetry across metrics, logs, traces, and profiles — trimming what you don't need so you only pay for what matters. Unique to Grafana.</p></div>
+  </div>
+
+  <!-- 5. KEY DIFFERENTIATORS — EXPANDED, SIMPLE LANGUAGE -->
+  <div class="section-header" id="differentiators">
+    <div class="icon">⭐</div>
+    <h2>5. Key Differentiators — The 5 Hills</h2>
+  </div>
+
+  <div class="card">
+    <p>These are the <strong>five things that make Grafana different</strong> from every other observability vendor. When you talk to a customer, find out which of these five matters most to them — then lead with that one.</p>
+    <p style="margin-top:8px;"><strong>Important rule:</strong> If none of these five resonate with the customer, Grafana is probably not the right fit. That is okay — it is better to walk away early than waste time on a deal that will not close.</p>
+  </div>
+
+  <!-- Hill 1 -->
+  <div class="hill-card">
+    <div class="hill-header">
+      <div class="num">1</div>
+      <h4>We Are a Partner, Not Just a Vendor</h4>
+    </div>
+    <p>This is the <strong>#1 reason</strong> customers choose Grafana — and they say it without us asking.</p>
+    <p style="margin-top:10px;">What does this mean in practice?</p>
+    <ul>
+      <li><strong>Direct access to engineers:</strong> Customers talk directly to the people who build the product. They don't go through layers of support to get answers.</li>
+      <li><strong>Shared Slack channels:</strong> We open a shared Slack channel with the customer so they can ask questions, report issues, and get help in real time.</li>
+      <li><strong>Transparent pricing:</strong> We show the customer exactly what they will pay. No hidden fees. No surprise bills at the end of the month.</li>
+      <li><strong>Executive access:</strong> Senior leaders at Grafana are available for customer conversations — not just during the sale, but after the deal closes too.</li>
+    </ul>
+    <div class="customer-quote">
+      <p>"Datadog does not treat customers like partners at all, and Grafana totally does."</p>
+      <div class="source">— CTO of a Grafana customer</div>
+    </div>
+    <div class="customer-quote">
+      <p>"I'm feeling the Grafana hug — it's real."</p>
+      <div class="source">— Champion at Limble, after the deal closed</div>
+    </div>
+    <div class="what-it-means">
+      <strong>Why this matters to your customer</strong>
+      <p>Many companies have been burned by vendors who show up during the sale and then disappear. Grafana is different. We stay involved after the deal closes because our business model depends on customers using the product — not just buying it.</p>
+    </div>
+  </div>
+
+  <!-- Hill 2 -->
+  <div class="hill-card">
+    <div class="hill-header">
+      <div class="num">2</div>
+      <h4>AI That Makes Everything Easier</h4>
+    </div>
+    <p>People used to say "Grafana is powerful but hard to learn." That is <strong>no longer true</strong>. Our AI — called <strong>Grafana Assistant</strong> — makes it easy for anyone to get started.</p>
+    <p style="margin-top:10px;">Here is what Grafana Assistant can do:</p>
+    <ul>
+      <li><strong>Build dashboards from a screenshot:</strong> Take a photo of an existing dashboard or a drawing on a whiteboard — Grafana Assistant will build a real, working dashboard from it. McDonald's rebuilt a dashboard that took 2 months by hand — <strong>in just a few minutes</strong> using AI.</li>
+      <li><strong>Ask questions in plain English:</strong> Instead of writing complex queries, users can type a question like "Show me the top 5 servers with highest CPU usage" and get the answer instantly.</li>
+      <li><strong>Investigate incidents automatically:</strong> When something breaks, Grafana Assistant starts investigating before you even open your laptop. By the time you sit down, it has already built a list of possible causes with supporting evidence.</li>
+      <li><strong>Works with ANY data source:</strong> Grafana AI works across all 180+ connected data sources — not just Grafana's own data. Datadog's AI only works with Datadog data. Dynatrace's AI only works with Dynatrace data. Grafana AI works with everything.</li>
+    </ul>
+    <div class="customer-quote">
+      <p>"We built a dashboard by hand over two months. Then we rebuilt the same thing with AI Assistant in minutes."</p>
+      <div class="source">— McDonald's, live on a call with Grafana</div>
+    </div>
+    <div class="what-it-means">
+      <strong>Why this matters to your customer</strong>
+      <p>AI removes the learning curve. New users can be productive on day one. This is especially important for teams that do not have deep Grafana experience — the AI helps them build dashboards, write queries, and find problems faster.</p>
+    </div>
+  </div>
+
+  <!-- Hill 3 -->
+  <div class="hill-card">
+    <div class="hill-header">
+      <div class="num">3</div>
+      <h4>Open Standards — No Vendor Lock-in</h4>
+    </div>
+    <p>Grafana is built on <strong>open-source technology and open standards</strong> like OpenTelemetry (OTel) and Prometheus. This means:</p>
+    <ul>
+      <li><strong>No proprietary agent:</strong> Grafana uses Alloy, an open-source agent. Datadog and Dynatrace use their own proprietary agents. If you want to leave Datadog, you have to remove their agent and re-instrument everything — that is a big, expensive project.</li>
+      <li><strong>Your data is yours:</strong> With Grafana, your data is stored in open formats. You can export it, move it, or query it with standard tools. You are never trapped.</li>
+      <li><strong>Instrument once, use forever:</strong> If you set up OpenTelemetry today, that instrumentation works with Grafana, but it also works with any other OTel-compatible platform. If you ever leave Grafana, your instrumentation stays.</li>
+    </ul>
+    <div class="customer-quote">
+      <p>"Instrument once with OTel and you own that instrumentation forever — if you ever leave Grafana, your telemetry comes with you. That is not true of a proprietary agent."</p>
+      <div class="source">— Grafana positioning vs. competitors</div>
+    </div>
+    <div class="customer-quote">
+      <p>"We have an aversion to vendor lock-in... we don't perceive Grafana as that type of vendor, unlike Datadog."</p>
+      <div class="source">— Staysure (insurance company)</div>
+    </div>
+    <div class="what-it-means">
+      <strong>Why this matters to your customer</strong>
+      <p>Many customers have been trapped by vendors before. They signed a contract, built everything on a proprietary platform, and then found it very expensive and difficult to leave. Grafana removes that risk completely. For companies that follow standards like ISO or COBIT, open standards alignment is often a hard requirement.</p>
+    </div>
+  </div>
+
+  <!-- Hill 4 -->
+  <div class="hill-card">
+    <div class="hill-header">
+      <div class="num">4</div>
+      <h4>One Complete Platform — Not Pieces You Stitch Together</h4>
+    </div>
+    <p>Some companies try to build their own observability stack by combining separate tools — one tool for metrics, another for logs, another for traces. This approach has big problems:</p>
+    <ul>
+      <li>It is hard to connect data across different tools during an incident</li>
+      <li>Each tool has its own UI, its own query language, its own billing</li>
+      <li>The engineering team spends time maintaining infrastructure instead of building products</li>
+    </ul>
+    <p style="margin-top:10px;">Grafana Cloud gives you <strong>everything in one platform</strong>: metrics, logs, traces, profiling, alerting, incident response, load testing, and frontend monitoring. All connected. All correlated. All managed by Grafana — so your team does not have to manage it.</p>
+    <div class="customer-quote">
+      <p>"ClickHouse is a database you have to build a house on top of. Grafana is a fully furnished, move-in-ready house."</p>
+      <div class="source">— A customer comparing DIY vs. Grafana Cloud</div>
+    </div>
+    <div class="what-it-means">
+      <strong>Why this matters to your customer</strong>
+      <p>Customers want to solve problems, not build infrastructure. Grafana Cloud is ready to use immediately. Almost 1,000 engineers at Grafana Labs are building and improving the platform every day — that is a team your customer does not have to hire.</p>
+    </div>
+  </div>
+
+  <!-- Hill 5 -->
+  <div class="hill-card">
+    <div class="hill-header">
+      <div class="num">5</div>
+      <h4>Clear, Predictable Pricing — No Surprise Bills</h4>
+    </div>
+    <p>This is the reason that comes up in <strong>almost every competitive deal</strong>. Customers are tired of unpredictable bills from Datadog, Splunk, and New Relic.</p>
+    <p style="margin-top:10px;">The problem with competitors:</p>
+    <ul>
+      <li><strong>Datadog</strong> charges per host + per metric + per GB of logs + per event. Each dimension adds cost. Customers regularly see bills <strong>40–80% higher</strong> than they expected.</li>
+      <li><strong>Splunk</strong> charges per GB of data ingested. High log volumes = very high bills.</li>
+      <li>Many customers start <strong>"data dieting"</strong> — they reduce log retention from 30 days to 7 days, turn off features, or stop collecting data they need — just to control costs. This hurts their ability to find and fix problems.</li>
+    </ul>
+    <p style="margin-top:10px;">How Grafana is different:</p>
+    <ul>
+      <li><strong>Consumption-based pricing:</strong> You pay for what you actually use. No per-host fees.</li>
+      <li><strong>Adaptive Telemetry:</strong> This is a feature unique to Grafana. It automatically identifies and removes data you are not using — across metrics, logs, traces, and profiles. This means you can <strong>collect more data while paying less</strong>.</li>
+      <li><strong>Cost calculator:</strong> Before you sign anything, you can see exactly what the bill will be.</li>
+    </ul>
+    <div class="customer-quote">
+      <p>"Datadog's billing model forced us to cut data that directly hurt our ability to detect and fix problems."</p>
+      <div class="source">— Limble</div>
+    </div>
+    <div class="customer-quote">
+      <p>The Trade Desk calls Adaptive Telemetry the "Save Money button."</p>
+      <div class="source">— The Trade Desk (saved ~$1.74M/year)</div>
+    </div>
+    <div class="what-it-means">
+      <strong>Why this matters to your customer</strong>
+      <p>For any customer comparing Grafana vs. Datadog, cost is usually the biggest factor. Grafana's pricing is simple and predictable. There are no surprise charges. And Adaptive Telemetry actively reduces waste — something no other vendor can do across all four signal types (metrics, logs, traces, profiles).</p>
+    </div>
+  </div>
+
+  <!-- 6. PAIN POINTS -->
+  <div class="section-header" id="painpoints">
+    <div class="icon">🔧</div>
+    <h2>6. Challenges & Pain Points We Solve</h2>
+  </div>
+
+  <div class="pain-grid">
+    <div class="pain-card">
+      <h4>💸 Unpredictable Observability Costs</h4>
+      <p>Customers on Datadog, Splunk, or New Relic face cost overruns of 40–80%. Bills balloon with custom metrics, log indexing, and ephemeral K8s workloads.</p>
+      <div class="solution"><strong>Grafana Solution</strong><p>Consumption-based pricing + Adaptive Telemetry across all signals. Cost calculator before you commit. No per-host fees.</p></div>
+    </div>
+    <div class="pain-card">
+      <h4>🔒 Vendor Lock-in</h4>
+      <p>Proprietary agents and data formats trap customers with one vendor. Migrating away means re-instrumenting every service — a multi-month project.</p>
+      <div class="solution"><strong>Grafana Solution</strong><p>OTel-native from day one. Open-source foundations. Your instrumentation is portable. Change backends without re-instrumenting.</p></div>
+    </div>
+    <div class="pain-card">
+      <h4>🔀 Tool Sprawl & Siloed Data</h4>
+      <p>Teams running 3–5+ monitoring tools can't correlate signals during incidents. Context-switching between tools slows MTTR.</p>
+      <div class="solution"><strong>Grafana Solution</strong><p>180+ data source integrations in a single pane. Native correlation between metrics, logs, traces, and profiles. Knowledge Graph connects entities across the stack.</p></div>
+    </div>
+    <div class="pain-card">
+      <h4>⏱️ Slow Incident Resolution (High MTTR)</h4>
+      <p>Engineers spend hours manually correlating data across tools during incidents. Senior engineers become bottlenecks.</p>
+      <div class="solution"><strong>Grafana Solution</strong><p>AI-powered Investigations builds hypotheses before you even open your laptop. Knowledge Graph maps system dependencies. MTTR reductions of 50–60% documented.</p></div>
+    </div>
+    <div class="pain-card">
+      <h4>📈 Scaling Observability with Growth</h4>
+      <p>As infrastructure grows, observability costs grow faster. Teams start "data dieting" — cutting retention and disabling features.</p>
+      <div class="solution"><strong>Grafana Solution</strong><p>Adaptive Telemetry lets you ingest MORE while paying LESS. Proven at customers managing 20M+ active series and 100TB+ logs.</p></div>
+    </div>
+    <div class="pain-card">
+      <h4>🌏 Data Residency & Compliance</h4>
+      <p>Regulations in Indonesia, India, and other markets require local data storage. Many platforms only offer US/EU regions.</p>
+      <div class="solution"><strong>Grafana Solution</strong><p>27 regions globally including Jakarta (AWS ap-southeast-3). BYOC (Bring Your Own Cloud) for maximum control. ISO compliance-ready.</p></div>
+    </div>
+  </div>
+
+  <!-- 7. ICP -->
+  <div class="section-header" id="icp">
+    <div class="icon">🎯</div>
+    <h2>7. Ideal Customer Profile & Best-Fit Use Cases</h2>
+  </div>
+
+  <div class="card">
+    <h3>ICP Qualification — The More Criteria, the Stronger the Fit</h3>
+    <table class="data-table">
+      <thead><tr><th>ICP Match</th><th>Approach</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">4–5 criteria</td><td>High priority — personalize deeply, invest in PoV</td></tr>
+        <tr><td class="bold">2–3 criteria</td><td>Medium priority — qualify further before investing</td></tr>
+        <tr><td class="bold">0–1 criteria</td><td>Low priority — may not resonate; consider deprioritizing</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="icp-grid">
+    <div class="icp-card"><h4>1. Grafana Familiarity & OSS Usage</h4><ul><li>Active OSS usage (self-hosted Grafana, Prometheus)</li><li>Grafana Cloud trial activity</li><li>OpenTelemetry adoption</li></ul><p style="margin-top:8px;"><em>These companies already trust the brand. The conversation starts from credibility, not education.</em></p></div>
+    <div class="icp-card"><h4>2. Large Engineering Organizations</h4><ul><li>High engineer-to-employee ratio (~10:1+)</li><li>SRE-heavy environments</li><li>Distributed engineering teams</li></ul><p style="margin-top:8px;"><em>Triage costs are high when critical apps break. ROI is tangible and quantifiable.</em></p></div>
+    <div class="icp-card"><h4>3. Mission-Critical Applications</h4><ul><li>SLA commitments to end customers</li><li>E-commerce, fintech, healthcare, media, telco</li><li>Teams prioritizing availability and resilience</li></ul><p style="margin-top:8px;"><em>Downtime has direct, measurable revenue impact — makes the business case easy.</em></p></div>
+    <div class="icp-card"><h4>4. Experienced Observability Buyers</h4><ul><li>Current spend on Datadog, New Relic, Dynatrace, Splunk</li><li>Previous RFP or vendor evaluation</li><li>Internal champions who can build a business case</li></ul><p style="margin-top:8px;"><em>They don't need to be sold on observability — just on why Grafana is better.</em></p></div>
+    <div class="icp-card"><h4>5. High Complexity & Telemetry Volume</h4><ul><li>Kubernetes, microservices, serverless</li><li>Large cloud spend / high telemetry volume</li><li>Multi-cloud or hybrid environments</li><li>Tool sprawl across teams</li></ul><p style="margin-top:8px;"><em>Complexity drives cost. Grafana's TCO savings story is strongest here.</em></p></div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <h3>Best-Fit Environments & Use Cases</h3>
+    <table class="data-table">
+      <thead><tr><th>Environment</th><th>Why Grafana Fits</th><th>Key Products</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">Kubernetes & Microservices</td><td>Consumption pricing aligns with ephemeral workloads. Single Helm chart deployment. No per-container billing penalties.</td><td>K8s Monitoring, Metrics, Logs, App O11y</td></tr>
+        <tr><td class="bold">Multi-Cloud / Hybrid</td><td>180+ data sources. Connect AWS, Azure, GCP, on-prem in one pane. No forced migration.</td><td>Grafana, Cloud Provider O11y, Metrics</td></tr>
+        <tr><td class="bold">Datadog / Splunk Displacement</td><td>Cost savings of 40–60%. No lock-in. OTel migration path. Big tent: visualize Datadog data during transition.</td><td>Full LGTM+ stack</td></tr>
+        <tr><td class="bold">Industrial IoT & Mining</td><td>High-volume time-series data. Lightweight agent (Alloy) for bandwidth-constrained sites. Pre-built industrial dashboards.</td><td>Metrics, Logs, Alerting, Alloy</td></tr>
+        <tr><td class="bold">Financial Services & Banking</td><td>Mission-critical uptime. Compliance-ready. Sub-minute alerting. Real-time fraud/transaction monitoring.</td><td>App O11y, IRM, Metrics, Frontend O11y</td></tr>
+        <tr><td class="bold">E-Commerce & Digital</td><td>Revenue = uptime. RUM for user experience. Load testing with k6. Synthetic monitoring for checkout flows.</td><td>Frontend O11y, k6, Synthetics, App O11y</td></tr>
+        <tr><td class="bold">Telco & ISP</td><td>Massive scale metrics. Network device monitoring. SLA-driven alerting. Multi-site infrastructure.</td><td>Metrics, Logs, IRM, Alerting</td></tr>
+        <tr><td class="bold">Government & SOEs</td><td>Jakarta region for data residency. AWS Marketplace for procurement. Open standards for audit compliance.</td><td>Full stack + BYOC option</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 8. PRICING -->
+  <div class="section-header" id="pricing">
+    <div class="icon">💰</div>
+    <h2>8. Pricing Overview</h2>
+  </div>
+
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Tier</th><th>Price</th><th>Key Inclusions</th><th>Support</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">Free (Forever Free)</td><td>$0</td><td>10K metrics series, 50GB logs, 50GB traces, 50GB profiles, 3 users, 14-day retention</td><td>Community</td></tr>
+        <tr><td class="bold">Pro</td><td>From $19/mo + usage</td><td>Pay-as-you-go above Free limits. 13-month metrics retention. 30-day logs/traces. Unlimited alerts & dashboards.</td><td>8×5 email, 99.5% SLA</td></tr>
+        <tr><td class="bold">Enterprise</td><td>From $25,000/yr commit</td><td>Volume pricing. Custom retention. BYOC option. 20+ enterprise plugins. SSO/SAML. Audit logs.</td><td>Premium, custom SLAs</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px; color:var(--text-muted); font-size:13px;"><strong>Key selling points:</strong> The Free tier is genuinely free — forever, no credit card. It's the best way to get a customer started with zero risk. Pro is pay-as-you-go with no minimums. Enterprise starts at $25K/yr for volume discounts. All tiers include Adaptive Telemetry.</p>
+  </div>
+
+  <!-- 9. OBJECTIONS -->
+  <div class="section-header" id="objections">
+    <div class="icon">🛡️</div>
+    <h2>9. Common Objections & How to Handle Them</h2>
+  </div>
+
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th style="width:30%;">Objection</th><th>How to Respond</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">"Grafana is hard to set up"</td><td>This was true 3 years ago. Today, Grafana Assistant builds dashboards from screenshots in minutes. Pre-built integrations for 100+ services. McDonald's rebuilt a 2-month manual dashboard <strong>in minutes with AI</strong>. Offer guided onboarding + PoV support.</td></tr>
+        <tr><td class="bold">"Datadog is easier / more polished"</td><td>Concede this honestly — Datadog's day-one UX is genuinely good. But ask: "Is ease of day-one setup worth 40–80% cost overruns? And with Grafana's AI Assistant, the gap is closing fast." Pair every deal with an enablement plan.</td></tr>
+        <tr><td class="bold">"We already have Datadog / Splunk"</td><td>Grafana is "big tent" — it can visualize Datadog data natively via the Datadog data source plugin. Start by running both in parallel during a migration. No rip-and-replace required.</td></tr>
+        <tr><td class="bold">"Is Grafana enterprise-ready?"</td><td>10,000+ paying customers. Gartner MQ Leader 3 years running. Trusted by NASA, Dell, PayPal, Shopify, JP Morgan. This is not a startup — it's the market leader in observability.</td></tr>
+        <tr><td class="bold">"We need data in Indonesia"</td><td>Grafana Cloud has a dedicated Jakarta region (AWS ap-southeast-3) — the first observability platform in that region. Data stays in-country. Available via AWS Marketplace.</td></tr>
+        <tr><td class="bold">"Open source = no support"</td><td>Grafana Cloud is fully managed SaaS with 99.5% SLA (Pro) and premium support with custom SLAs (Enterprise). ~1,000 engineers building and maintaining the platform. Open source is the foundation, not the support model.</td></tr>
+        <tr><td class="bold">"We can build this ourselves"</td><td>You can — but should you? <em>"ClickHouse is a database you have to build a house on top of. Grafana is a fully furnished, move-in-ready house."</em> The real cost of DIY is engineering time that should go to product, not infrastructure.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10. RESOURCES -->
+  <div class="section-header" id="resources">
+    <div class="icon">📚</div>
+    <h2>10. Resources & Links</h2>
+  </div>
+
+  <div class="card">
+    <table class="data-table">
+      <thead><tr><th>Resource</th><th>Link</th></tr></thead>
+      <tbody>
+        <tr><td class="bold">Grafana Cloud — Main Page</td><td><a href="https://grafana.com/products/cloud/" style="color:var(--accent2);">grafana.com/products/cloud</a></td></tr>
+        <tr><td class="bold">Grafana Cloud — Pricing</td><td><a href="https://grafana.com/pricing/" style="color:var(--accent2);">grafana.com/pricing</a></td></tr>
+        <tr><td class="bold">Gartner Magic Quadrant Report (ungated)</td><td><a href="https://grafana.com/analyst-reports/gartner-magic-quadrant-observability-platforms/" style="color:var(--accent2);">grafana.com/analyst-reports/gartner-mq</a></td></tr>
+        <tr><td class="bold">Regional Availability (all 27 regions)</td><td><a href="https://grafana.com/docs/grafana-cloud/account-management/regional-availability/" style="color:var(--accent2);">grafana.com/docs/regional-availability</a></td></tr>
+        <tr><td class="bold">Jakarta Region Announcement</td><td><a href="https://grafana.com/blog/grafana-cloud-in-indonesia-learn-how-were-meeting-users-where-they-are-with-our-latest-region/" style="color:var(--accent2);">grafana.com/blog/grafana-cloud-indonesia</a></td></tr>
+        <tr><td class="bold">Grafana vs Datadog Comparison</td><td><a href="https://grafana.com/compare/grafana-vs-datadog/" style="color:var(--accent2);">grafana.com/compare/grafana-vs-datadog</a></td></tr>
+        <tr><td class="bold">Customer Case Studies</td><td><a href="https://grafana.com/success/" style="color:var(--accent2);">grafana.com/success</a></td></tr>
+        <tr><td class="bold">AWS Marketplace Listing</td><td><a href="https://aws.amazon.com/marketplace/seller-profile?id=seller-highwindcloud" style="color:var(--accent2);">AWS Marketplace — Grafana Labs</a></td></tr>
+        <tr><td class="bold">Partner Portal</td><td><a href="https://partners.grafana.com" style="color:var(--accent2);">partners.grafana.com</a></td></tr>
+        <tr><td class="bold">Free Tier Sign-Up</td><td><a href="https://grafana.com/auth/sign-up/create-user" style="color:var(--accent2);">grafana.com/sign-up</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <p>Prepared by Grafana Labs Channel Sales for OneT partner use only — Confidential</p>
+    <p style="margin-top:6px;">Content sourced from Grafana Labs knowledge base, published documentation, and approved company materials (Sep 2026)</p>
+    <p style="margin-top:6px;">For questions, contact: <strong>Rene Wong</strong> — Strategic Channel Manager, Grafana Labs</p>
+  </div>
+
+</div>
+</body>
+</html>
